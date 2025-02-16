@@ -1,0 +1,46 @@
+.dashboard-card{
+    box-shadow: 0 0 10px 0 #00000046;
+}
+.dashboard-card h6{
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dashboard-card-sm {
+    flex: 0 0 210px;
+}
+
+.main-card{
+    height: 360px;
+    overflow: scroll;
+}
+
+/* =========== CALENDAR CSS */
+.fc .fc-button{
+    margin: 5px;
+}
+.fc .fc-col-header-cell-cushion{
+    padding: 10px 4px;
+}
+.fc .fc-daygrid-day-number{
+    padding: 12px;
+}
+
+.daly-complaints .daily-comp-heading{
+    font-size: 15px;
+    font-weight: 600;
+    font-family: unset;
+}
+
+.daly-complaints .daily-comp-sub-heading{
+    font-size: 12px;
+}
+
+.daly-complaints .daily-comp-heading-user{
+    font-size: 13px;
+}
+.progress-complain {
+    background-color: var(--main-color);
+    color: var(--main-color);
+    font-weight: 900;
+}

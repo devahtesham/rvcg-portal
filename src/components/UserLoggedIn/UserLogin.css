@@ -1,0 +1,19 @@
+.user-option{
+    box-shadow: 0 0 10px 0 #0000005c;
+    padding: 11px;
+    position: absolute;
+    bottom: -97px;
+    left: 2px;
+    background: white;
+    z-index: 15;
+    height: 90px;
+    width: 130px;
+    visibility: hidden;
+    transition-duration: 0.3s;
+
+}
+
+.user-option.visible{
+    cursor: pointer;
+    visibility: visible;
+}

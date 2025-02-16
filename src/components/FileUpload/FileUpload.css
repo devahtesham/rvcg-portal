@@ -1,0 +1,17 @@
+.file-upload_comp {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .file-upload_comp button {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .file-upload_comp span {
+    color: #666666;
+  }
+  

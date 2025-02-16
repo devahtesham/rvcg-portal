@@ -1,0 +1,11 @@
+.side-bar-wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 19.5rem;
+    z-index: 10;
+    overflow: scroll;
+    transition-duration: 0.5s;
+    /* width: 14.5rem; */
+}

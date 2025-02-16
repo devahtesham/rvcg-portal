@@ -1,0 +1,10 @@
+.user-grid-img{
+    width: 52px;
+}
+
+.MuiToolbar-root button{
+    background-color: #F2F5FA;
+    color: #000;
+    border-radius: 0%;
+    padding: 12px;
+}
