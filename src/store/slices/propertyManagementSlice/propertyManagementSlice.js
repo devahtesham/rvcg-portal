@@ -36,7 +36,8 @@ const INITIAL_STATE = {
     highROIProperty: [],
     lowROIProperty: [],
     vendors: [],
-    vendorDetails:{}
+    vendorDetails:{},
+    mlsData:[]
 
 
 }
@@ -333,6 +334,16 @@ const PropertySlice = createSlice({
             state.vendorDetails = action.payload
         })
         builder.addCase(GetVendorById.rejected, (state) => {
+            state.isLoading = false
+        })
+        builder.addCase(GetMLSData.pending, (state) => {
+            state.isLoading = true
+        })
+        builder.addCase(GetMLSData.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.mlsData = action.payload?.Results
+        })
+        builder.addCase(GetMLSData.rejected, (state) => {
             state.isLoading = false
         })
     }
@@ -1382,6 +1393,21 @@ export const DeleteVendor = createAsyncThunk('/vendors/DELETE', async (param, { 
     }
 })
 
+
+// GET
+export const GetMLSData = createAsyncThunk('/mls-data/GET', async (payload, { rejectWithValue }) => {
+    try {
+        const headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+        const response = await axios.get(`${BASE_URL_AUTH}/mls-data`, { headers });
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || 'Something Went Wrong !')
+    }
+})
 
 // GET
 export const GetPackagItems = createAsyncThunk('/Package-items/GET', async (payload, { rejectWithValue }) => {

@@ -49,6 +49,7 @@ import FailedPayment from '../components/payments/FailedPayment/FailedPayment'
 import CheckoutPageSkipTrace from '../components/payments/CheckoutPageSkipTrace'
 import VendorDetail from '../components/pages/Property/VendorDetail'
 import FAQSection from '../components/FAQ/FAQ'
+import MLSDataListing from '../components/FAQ/MLSDataListing'
 
 
 
@@ -108,6 +109,7 @@ const Router = () => {
                     <Route path='payment-success' element={<SuccessPayment />} />
                     <Route path='payment-fail' element={<FailedPayment />} />
                     <Route path='faq' element={<FAQSection />} />
+                    <Route path='mls' element={<MLSDataListing />} />
 
                 </Route>
                 <Route element={<PrivateRoute />}>

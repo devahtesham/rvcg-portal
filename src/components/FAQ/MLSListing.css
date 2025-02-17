@@ -1,0 +1,26 @@
+.mls-listing .property-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease-in-out;
+}
+
+.mls-listing .property-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mls-listing .property-card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.mls-listing .property-card .card-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.mls-listing .property-card .card-text {
+    font-size: 0.9rem;
+    color: #555;
+}

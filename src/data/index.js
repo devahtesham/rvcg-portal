@@ -316,7 +316,7 @@ const SIDE_NAVIGATION = [
                 type: "Route",
                 path: "/dashboard/favourites-properties",
             },
-            
+
             {
                 summary: "Property Types",
                 isDropdown: false,
@@ -340,8 +340,27 @@ const SIDE_NAVIGATION = [
                 mainHeading: "Property Statuses",
                 type: "Route",
                 path: "/dashboard/property-status",
-            }
-    ]
+            },
+
+        ]
+
+    },
+    {
+        id: 9,
+        summary: "MLS Live Data",
+        isDropdown: true,
+        type: "Accordian",
+        path: "",
+        details: [
+            {
+                summary: "MLS Live Data",
+                isDropdown: false,
+                icon: "",
+                mainHeading: "MLS Live Data",
+                type: "Route",
+                path: "/dashboard/mls",
+            },
+        ]
 
     },
     {
