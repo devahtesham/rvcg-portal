@@ -4,7 +4,8 @@ import SideBar from '../../SideBar/SideBar'
 import MainHeader from '../../MainHeader/MainHeader'
 
 const Dashboard = () => {
-    const {pathname} = useLocation()
+    const { pathname } = useLocation()
+    const footerExcludeRoutes = ["/dashboard/faq", "/dashboard/mls"]
     return (
         <div className=''>
             {/* <Header /> */}
@@ -16,9 +17,9 @@ const Dashboard = () => {
                     <MainHeader />
                     <Outlet />
                     {
-                    !pathname.includes('/dashboard/faq') && (
-                        <Footer />
-                    )
+                        !footerExcludeRoutes.includes(pathname) && (
+                            <Footer />
+                        )
                     }
                 </div>
             </div>

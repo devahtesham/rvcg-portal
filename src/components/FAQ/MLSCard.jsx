@@ -3,7 +3,7 @@ import { Card, Button } from "react-bootstrap";
 
 const MLSCard = ({ property }) => {
     return (
-        <Card className="property-card">
+        <Card className="property-card mb-3 mx-1">
             <Card.Img variant="top" src={property.DefaultImage} alt="Property Image" />
             <Card.Body>
                 <Card.Title>${property.ListPrice.toLocaleString()}</Card.Title>
