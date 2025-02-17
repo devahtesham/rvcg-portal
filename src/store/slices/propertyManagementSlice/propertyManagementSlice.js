@@ -136,7 +136,7 @@ const PropertySlice = createSlice({
         })
         builder.addCase(GetLeadType.fulfilled, (state, action) => {
             state.isLoading = false
-            state.leadTypes = action.payload.map(item => [item.id, item.type_name, formatDateForUI(item?.created_at), item])
+            state.leadTypes = action.payload.map(item => [item.id, item, formatDateForUI(item?.created_at), item])
         })
         builder.addCase(GetLeadType.rejected, (state) => {
             state.isLoading = false

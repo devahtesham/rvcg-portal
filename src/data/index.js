@@ -484,7 +484,26 @@ const SIDE_NAVIGATION = [
             }
         ]
 
+    },
+    {
+        id: 8,
+        summary: "FAQ",
+        isDropdown: true,
+        type: "Accordian",
+        path: "",
+        details: [
+            {
+                summary: "FAQ",
+                isDropdown: false,
+                icon: "",
+                mainHeading: "FAQ",
+                type: "Route",
+                path: "/dashboard/faq",
+            }
+        ]
+
     }
+
 
 ]
 

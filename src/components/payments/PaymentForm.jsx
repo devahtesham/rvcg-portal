@@ -19,7 +19,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const PaymentForm = ({ amount }) => {
     const navigate = useNavigate()
-    const {id} = useParams()
+    const { id } = useParams()
     const stripe = useStripe();
     const elements = useElements();
     const [error, setError] = useState(null);
@@ -130,20 +130,20 @@ const PaymentForm = ({ amount }) => {
 
         try {
             // 1. Create PaymentIntent
-            const response = await axios.post(`${BASE_URL_AUTH}/create-payment-intent`,
-                { amount },
+            const response = await axios.post(`${BASE_URL_AUTH}/payment/create-intent`,
+                { amount, listing_id: [id] },
                 { headers }
             );
 
-            const { clientSecret } = response.data;
-            console.log('Client Secret received:', clientSecret);
+            const { client_secret } = response.data;
+            console.log('Client Secret received:', client_secret);
 
-            if (!clientSecret) {
+            if (!client_secret) {
                 throw new Error('No client secret received from the server');
             }
 
             // 2. Confirm the payment
-            const result = await stripe.confirmCardPayment(clientSecret, {
+            const result = await stripe.confirmCardPayment(client_secret, {
                 payment_method: {
                     card: elements.getElement(CardNumberElement),
                     billing_details: {
@@ -166,11 +166,13 @@ const PaymentForm = ({ amount }) => {
                     console.log('Payment succeeded:', result.paymentIntent);
                     setSucceeded(true);
                     // You might want to call your backend here to update the order status
-                    const response = await axios.post(`${BASE_URL_AUTH}/payment-success`, {
-                        paymentIntentId: result.paymentIntent.id
+                    const response = await axios.post(`${BASE_URL_AUTH}/payment/store-transaction`, {
+                        payment_intent_id: result.paymentIntent.id,
+                        listing_id: [id],
+                        amount
                     }, { headers });
 
-                    if(response.data?.status === "success"){
+                    if (response.data?.status === "success") {
                         window.location.href = `/dashboard/display-details/${id}`
                     }
                 }

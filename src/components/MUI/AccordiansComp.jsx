@@ -36,6 +36,7 @@ import { FaMicrochip } from "react-icons/fa6";
 import { MdOutlineMiscellaneousServices } from "react-icons/md";
 import { getNavigationByRole } from '../../data';
 
+import { HiMiniQuestionMarkCircle } from "react-icons/hi2";
 
 
 
@@ -83,7 +84,8 @@ export default function CustomizedAccordions({ nav }) {
         "User Logs",
         "Property Calculators",
         "Skip Tracing",
-        "Vendor Services"
+        "Vendor Services",
+        "FAQ"
     ]
     const [expanded, setExpanded] = React.useState(['panel1', 'panel2']);
 
@@ -105,6 +107,7 @@ export default function CustomizedAccordions({ nav }) {
         "Offers": <TbReportSearch size={19} className='me-3' />,
         "Vendor Services": <IoIosSettings size={19} className='me-3' />,
         "Email Campaigns": <IoDocumentTextSharp size={19} className='me-3' />,
+        "FAQ": <HiMiniQuestionMarkCircle size={19} className='me-3' />,
     };
 
     const subNavIconMap = {
@@ -131,6 +134,7 @@ export default function CustomizedAccordions({ nav }) {
         "ROI Calculator": <FaCalculator size={17} className='me-3' />,
         "Skip Tracing": <FaCalculator size={17} className='me-3' />,
         "Roles": <FaUserPen size={17} className='me-3' />,
+        "FAQ": <HiMiniQuestionMarkCircle size={17} className='me-3' />,
     };
 
 

@@ -558,3 +558,45 @@ export const OWNERSHIP_TYPE = [
     { label: "Joint Ownership", value: 'Joint Ownership' },
 ]
 
+
+export const FAQ_DATA = [
+    {
+        category: "Property Management",
+        question: "How can I list my property on the platform?",
+        answer: "You can list your property by navigating to the 'Add Property' section in your dashboard. Fill in the required details, upload images, set pricing, and submit for approval."
+    },
+    {
+        category: "Lead Management",
+        question: "How does the lead management system work?",
+        answer: "Our lead management system captures inquiries from buyers and sellers, allowing you to track their activity, follow up via email or phone, and convert them into successful deals."
+    },
+    {
+        category: "Messaging & Chat",
+        question: "Is there a way to chat with potential buyers or sellers?",
+        answer: "Yes! Our chat module enables real-time messaging between buyers and sellers for seamless communication."
+    },
+    {
+        category: "Email Campaigns",
+        question: "Can I send email campaigns to my leads?",
+        answer: "Absolutely! Our platform allows you to create and send bulk email campaigns to your leads to keep them engaged with the latest property listings and offers."
+    },
+    {
+        category: "Skip Trace",
+        question: "What is Skip Trace, and how does it help?",
+        answer: "Skip Trace helps you find property owner details, including contact information, making it easier to reach out to potential sellers or buyers."
+    },
+    {
+        category: "MLS Data",
+        question: "Does the platform integrate with MLS data?",
+        answer: "Yes, our system fetches real-time MLS data, ensuring you have access to the latest property listings and market trends."
+    },
+    {
+        category: "User Management",
+        question: "Can I manage multiple users on my account?",
+        answer: "Yes, our platform allows admin users to manage agents, brokers, and other team members with role-based access."
+    }
+];
+
+
+
+

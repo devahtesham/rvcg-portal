@@ -1,0 +1,47 @@
+.faq-sec .custom-accordion {
+    max-width: 800px;
+    margin: auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.faq-sec .custom-accordion .accordion-item {
+    border: none;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.faq-sec .custom-accordion .accordion-header {
+    background-color: #f1f1f1 !important;
+    /* Light Grey Background */
+}
+
+.faq-sec .custom-accordion .accordion-button {
+    background-color: #e0e0e0 !important;
+    /* Grey Color for Header */
+    color: #333 !important;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    border-radius: 8px !important;
+}
+
+.faq-sec .custom-accordion .accordion-button:hover {
+    background-color: #d6d6d6 !important;
+    /* Darker Grey on Hover */
+}
+
+.faq-sec .custom-accordion .accordion-button:not(.collapsed) {
+    background-color: #c0c0c0 !important;
+    /* Slightly Darker Grey when Active */
+    color: #000 !important;
+    box-shadow: none;
+}
+
+.faq-sec .custom-accordion .accordion-body {
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 15px;
+}

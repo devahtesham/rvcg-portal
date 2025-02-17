@@ -1,9 +1,10 @@
 import Footer from '../../Footer/Footer'
-import { Outlet } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
 import SideBar from '../../SideBar/SideBar'
 import MainHeader from '../../MainHeader/MainHeader'
 
 const Dashboard = () => {
+    const {pathname} = useLocation()
     return (
         <div className=''>
             {/* <Header /> */}
@@ -14,7 +15,11 @@ const Dashboard = () => {
                 <div className="col-xxl-10 col-xl-9 col-12 main-content">
                     <MainHeader />
                     <Outlet />
-                    <Footer />
+                    {
+                    !pathname.includes('/dashboard/faq') && (
+                        <Footer />
+                    )
+                    }
                 </div>
             </div>
         </div>

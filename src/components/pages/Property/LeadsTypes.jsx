@@ -4,7 +4,7 @@ import { useModal } from '../../../hooks/useModal';
 import { MAIN_HEADINGS } from '../../../data';
 import { FaPlus } from 'react-icons/fa6';
 import Button from '../../ModalButton/Button';
-import { Col, Row } from 'react-bootstrap';
+import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import DataGridGlobal from '../../MUI/DataGrid/DataGridGlobal';
 import ModalGlobal from '../../MUI/Modal/ModalGlobal';
 import IconMenu from '../../MUI/IconMenu/IconMenu';
@@ -16,6 +16,8 @@ import { errorNotify } from '../../../Toastify/Toastify';
 import { formatDateForUI } from '../../../data/global';
 import AddSource from './AddSource';
 import AddLeadType from './AddLeadType';
+import { RxQuestionMarkCircled } from "react-icons/rx";
+
 
 const LeadTypes = () => {
     const [isEdit, setIsEdit] = useState(false)
@@ -27,6 +29,13 @@ const LeadTypes = () => {
     }, [])
     const { pathname } = useLocation();
     const { handleModalOpen } = useModal()        // this is my custom hook to work with Modal globally
+
+
+    const renderTooltip = (props,text) => (
+        <Tooltip id="tooltip" {...props}>
+            {text}
+        </Tooltip>
+    );
 
     const columns = [
         {
@@ -43,8 +52,14 @@ const LeadTypes = () => {
             name: 'title',
             label: "Title",
             options: {
-                customBodyRender: (value) => (
-                    <div className='ms-4'>{value}</div>
+                customBodyRender: (item) => (
+                    <div className='ms-4'>
+                        <OverlayTrigger placement="top" overlay={(props) => renderTooltip(props, item.description)}>
+                            <span className="text-primary" style={{ cursor: "pointer" }}>
+                                <span className=''>{item.type_name} <RxQuestionMarkCircled size={17} style={{ marginLeft: 5 }} /></span>
+                            </span>
+                        </OverlayTrigger>
+                    </div>
                 )
             }
         },

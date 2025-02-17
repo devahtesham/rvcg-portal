@@ -25,6 +25,14 @@ const DisplayMap = () => {
         setDisplayMapObj,
         isSearchLoading
     } = useContext(PropertyContext)
+
+    // Add this to your component's state
+    const [showRadii, setShowRadii] = useState({
+        quarter: true,
+        half: true,
+        full: true
+    });
+
     // for optimizing renders on every key 
     const [isSearchModalShow, setIsSearchModalShow] = useState(false)
     const searchModalRef = useRef()
@@ -84,7 +92,7 @@ const DisplayMap = () => {
             center: { lat: currentLat ? +currentLat : DEFAULT_LAT, lng: currentLong ? +currentLong : DEFAULT_LONG }, // San Fracisco
             zoom: 13, // update this too
             mapTypeControl: true,
-            mapTypeId: google.maps.MapTypeId.SATELLITE
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
         const styles = JSON.parse(`[{
@@ -421,6 +429,59 @@ const DisplayMap = () => {
                 icon: customMarkerIcons.amcHouse
             });
 
+            // Convert miles to meters for Google Maps circles
+            const milesToMeters = (miles) => miles * 1609.34;
+
+            const radiusColors = {
+                0.25: '#FF000040', // Red with 25% opacity
+                0.5: '#0000FF40',  // Blue with 25% opacity
+                1: '#00FF0040'     // Green with 25% opacity
+            };
+
+            // Create circles for different radii
+            [0.25, 0.5, 1].forEach(radius => {
+
+                if (
+                    (radius === 0.25 && showRadii.quarter) ||
+                    (radius === 0.5 && showRadii.half) ||
+                    (radius === 1 && showRadii.full)) {
+                    const circle = new google.maps.Circle({
+                        strokeColor: radiusColors[radius].replace('40', '80'),
+                        strokeOpacity: 0.8,
+                        strokeWeight: 1,
+                        fillColor: radiusColors[radius],
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: { lat: +house.latitude, lng: +house.longitude },
+                        radius: milesToMeters(radius)
+                    });
+
+                    // Add hover effect
+                    marker.addListener('mouseover', () => {
+                        circle.setOptions({
+                            fillOpacity: 0.5,
+                            strokeWeight: 2
+                        });
+                    });
+
+                    marker.addListener('mouseout', () => {
+                        circle.setOptions({
+                            fillOpacity: 0.35,
+                            strokeWeight: 1
+                        });
+                    });
+
+                    // Optional: Toggle circles visibility with marker click
+                    marker.addListener('click', () => {
+                        circle.setVisible(!circle.getVisible());
+                    });
+                }
+
+
+            });
+
+
+
             // Create an info window for each marker
             const infoWindow = new google.maps.InfoWindow({
                 content: `
@@ -488,12 +549,6 @@ const DisplayMap = () => {
 
     }
 
-    // for getting latitude and longitude
-    const getLatLong = (lat, long) => {
-        zoomOnMap(displayMapObj, lat, long)
-    }
-
-
     const handleSelect = (price) => {
         setCustomPrice("")
         if (price === "Any Price") {
@@ -527,14 +582,21 @@ const DisplayMap = () => {
                 const filteredListing = response.payload
                 initMap(filteredListing, query.latitude, query.longitude)
             })
-            .then((error) => { })
+            .catch((error) => { })
 
     }
+
+    useEffect(() => {
+
+        applyFilter()
+
+    }, [showRadii]);
+
     const resetFilter = () => {
         console.log("I am callinmg ")
         setQuery({
             ...query,
-            city_name:""
+            city_name: ""
         })
         setFilterPropertyType("")
         setCustomPrice("")
@@ -544,6 +606,9 @@ const DisplayMap = () => {
 
         initMap([])
     }
+
+
+
 
     // console.log('[allCities]',allCities)
     return (
@@ -646,13 +711,13 @@ const DisplayMap = () => {
                 </Col>
                 <Col lg={1}>
                     <div className='swimming-pool'>
-                        <DropDownComp 
-                        label={"Bed"} 
-                        options={BEDROOMS} 
-                        name="property_type_id" 
-                        className='p-3' 
-                        onChange={(e) => { setFilterBed(e.target.value) }} 
-                        value={filterBed}
+                        <DropDownComp
+                            label={"Bed"}
+                            options={BEDROOMS}
+                            name="property_type_id"
+                            className='p-3'
+                            onChange={(e) => { setFilterBed(e.target.value) }}
+                            value={filterBed}
                         />
                     </div>
                 </Col>
@@ -670,6 +735,29 @@ const DisplayMap = () => {
             </Row>
             <section className='display-map mt-3 main-section position-relative d-flex justify-content-center align-items-center mx-xl-0 mx-4'>
                 <div id="map" className=''></div>
+
+                <div className="radius-controls position-absolute" style={{ top: '10px', right: '10px', background: 'white', padding: '10px', borderRadius: '4px', boxShadow: '0 2px 6px rgba(0,0,0,0.3)' }}>
+                    <div className="d-flex flex-column gap-2">
+                        <Form.Check
+                            type="checkbox"
+                            label="0.25 mile radius"
+                            checked={showRadii.quarter}
+                            onChange={(e) => setShowRadii({ ...showRadii, quarter: e.target.checked })}
+                        />
+                        <Form.Check
+                            type="checkbox"
+                            label="0.5 mile radius"
+                            checked={showRadii.half}
+                            onChange={(e) => setShowRadii({ ...showRadii, half: e.target.checked })}
+                        />
+                        <Form.Check
+                            type="checkbox"
+                            label="1 mile radius"
+                            checked={showRadii.full}
+                            onChange={(e) => setShowRadii({ ...showRadii, full: e.target.checked })}
+                        />
+                    </div>
+                </div>
                 {
                     isLoading || isMapLoading && <MapLoader />
                 }

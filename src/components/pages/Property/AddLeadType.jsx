@@ -1,5 +1,5 @@
 import { Col, Row } from 'react-bootstrap'
-import { ButtonComp, InputComp } from '../../bootstrap'
+import { ButtonComp, DetailDescription, InputComp } from '../../bootstrap'
 import { useModal } from '../../../hooks/useModal'
 import { AddPropertyLeadSource, AddPropertyLeadType, AddPropertyTypes, EditLeadSource, EditLeadType, EditPropertyType, GetLeadSources, GetLeadType, GetPropertyTypes } from '../../../store/slices/propertyManagementSlice/propertyManagementSlice'
 import { useEffect, useState } from 'react'
@@ -10,10 +10,12 @@ const AddLeadType = ({ isEdit, data }) => {
     const { handleModalClose } = useModal()
     const dispatch = useDispatch();
     const [propertyTypeVal, setPropertyTypeVal] = useState("")
+    const [description, setDescription] = useState("")
 
     useEffect(() => {
         if (isEdit) {
             setPropertyTypeVal(data.type_name)
+            setDescription(data.description)
         }
     }, [isEdit])
 
@@ -26,7 +28,8 @@ const AddLeadType = ({ isEdit, data }) => {
         }
 
         const payload = {
-            type_name: propertyTypeVal
+            type_name: propertyTypeVal,
+            description
         }
         if (!isEdit) {
             dispatch(AddPropertyLeadType(payload))
@@ -62,10 +65,16 @@ const AddLeadType = ({ isEdit, data }) => {
                 <Row className='mt-3'>
                     <Col xxl={12} className="">
                         <Row>
-                            <Col lg={6} className='bg-lightgray p-3'>
+                            <Col lg={12} className='bg-lightgray p-3'>
                                 <h5 className='pb-3'>{isEdit ? 'Update' : 'Add'} Lead Type</h5>
                                 <div className='property-no'>
                                     <InputComp onChange={(e) => setPropertyTypeVal(e.target.value)} required={true} label={"Enter Lead Type: *"} type={"text"} placeholder={"Property No"} controlId={"floatingInput-3"} name="PropertyNo" value={propertyTypeVal} />
+                                </div>
+                            </Col>
+                            <Col lg={12} className='bg-lightgray p-3'>
+                                <h5 className='pb-3'>Definition</h5>
+                                <div className='description mb-4'>
+                                    <DetailDescription value={description} controlId={"descriptionBox-1"} label={"Definition"} name="description" onChange={(e) => setDescription(e.target.value)} placeholder={"description"} />
                                 </div>
                             </Col>
 
