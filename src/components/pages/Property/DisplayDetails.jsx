@@ -339,6 +339,17 @@ const DisplayDetails = () => {
                                 )
                             }
                             {
+                                propertyDetails?.leadtypes?.type_name !== null && (
+                                    <Col xl={4} lg={4} className=' rounded-2'>
+                                        <div className='tenant-mobile d-flex flex-column my-2'>
+                                            <h6 className='mb-3 mt-2 me-2'>Lead Type:</h6>
+                                            <p className='m-0 b-4 p-3 py-2 rounded-2'>{propertyDetails?.leadtypes?.type_name}</p>
+                                        </div>
+                                    </Col>
+
+                                )
+                            }
+                            {
                                 propertyDetails?.moa !== null && (
                                     <Col xl={4} lg={4} className=' rounded-2'>
                                         <div className='tenant-mobile d-flex flex-column my-2'>

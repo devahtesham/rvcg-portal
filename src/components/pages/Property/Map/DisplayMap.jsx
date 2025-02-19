@@ -1,42 +1,44 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import "./Map.css"
 import amcActive from "../../../../assets/img/amcHouse1.png"
-import { Col, Dropdown, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
+import { Button, Col, Dropdown, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
 
 import { PropertyContext } from '../../../../context/PropertyContext';
 import MapLoader from '../../../Loader/MapLoader';
 import { useDispatch, useSelector } from 'react-redux';
-import { FilterMapListing, GetAllCitiesForMap, GetAllProperties, GetPropertyTypes } from '../../../../store/slices/propertyManagementSlice/propertyManagementSlice';
+import { FilterMapListing, GetAllCitiesForMap, GetAllProperties, GetLeadType, GetPropertyTypes } from '../../../../store/slices/propertyManagementSlice/propertyManagementSlice';
 import { BiSearch } from 'react-icons/bi';
 import SearchLoader from '../../../Loader/SearchLoader';
-import { DropDownComp } from '../../../bootstrap';
+import { CheckBoxComp, DropDownComp } from '../../../bootstrap';
 import { BATHROOMS, BEDROOMS, cleanPriceVal, DEFAULT_LAT, DEFAULT_LONG, priceOptions } from '../../../../data/global';
 import { SlLocationPin } from "react-icons/sl";
+import { RxCross2 } from "react-icons/rx";
 
 
 
 const DisplayMap = () => {
     const dispatch = useDispatch()
-    const [isMapLoading, setIsMapLoading] = useState(false)    // specially for map
+    const [isMapLoading, setIsMapLoading] = useState(false)
+    const [other_features, setOtherFeatures] = useState([])    // specially for map
     const {
-        zoomOnMap,
-        displayMapObj,
         isLoading,
         setDisplayMapObj,
         isSearchLoading
     } = useContext(PropertyContext)
+    const [isLeadTypeDrawerOpen, setIsLeadTypeDrawerOpen] = useState(false)
 
     // Add this to your component's state
     const [showRadii, setShowRadii] = useState({
         quarter: true,
         half: true,
-        full: true
+        full: true,
+        five: true  // Added 5-mile option
     });
 
     // for optimizing renders on every key 
     const [isSearchModalShow, setIsSearchModalShow] = useState(false)
     const searchModalRef = useRef()
-    const { propertyTypes } = useSelector((state) => state.PropertyMangementReducer)
+    const { propertyTypes, leadTypes } = useSelector((state) => state.PropertyMangementReducer)
     const [allCities, setAllCities] = useState([])
 
 
@@ -52,6 +54,7 @@ const DisplayMap = () => {
 
 
     useEffect(() => {
+        dispatch(GetLeadType())
         dispatch(GetAllProperties())
         dispatch(GetPropertyTypes())
         dispatch(GetAllCitiesForMap())
@@ -421,6 +424,32 @@ const DisplayMap = () => {
         console.log('[allProperty]', allProperty)
 
         allProperty.length > 0 && allProperty.forEach(house => {
+
+            // Create a div to hold the marker and label
+            const markerDiv = document.createElement('div');
+            markerDiv.className = 'custom-marker';
+
+            // Create the price label
+            const priceLabel = new google.maps.Marker({
+                position: { lat: +house.latitude, lng: +house.longitude },
+                map: map,
+                label: {
+                    text: `$${Number(house.price).toLocaleString()}`,
+                    className: 'price-label',
+                    color: '#FFFFFF',
+                    fontWeight: 'bold',
+                    fontSize: '14px'
+                },
+                icon: {
+                    url: amcActive,
+                    size: new google.maps.Size(40, 40),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(20, 40),
+                    labelOrigin: new google.maps.Point(20, -10) // Adjust this to position the label
+                }
+            });
+
+
             const marker = new google.maps.Marker({
                 position: { lat: +house.latitude, lng: +house.longitude },
                 map: map,
@@ -435,16 +464,19 @@ const DisplayMap = () => {
             const radiusColors = {
                 0.25: '#FF000040', // Red with 25% opacity
                 0.5: '#0000FF40',  // Blue with 25% opacity
-                1: '#00FF0040'     // Green with 25% opacity
+                1: '#00FF0040',     // Green with 25% opacity
+                5: '#ffa5001a'     // Orange with 25% opacity
             };
 
             // Create circles for different radii
-            [0.25, 0.5, 1].forEach(radius => {
+            [0.25, 0.5, 1, 5].forEach(radius => {
 
                 if (
                     (radius === 0.25 && showRadii.quarter) ||
                     (radius === 0.5 && showRadii.half) ||
-                    (radius === 1 && showRadii.full)) {
+                    (radius === 1 && showRadii.full) ||
+                    (radius === 5 && showRadii.five)
+                ) {
                     const circle = new google.maps.Circle({
                         strokeColor: radiusColors[radius].replace('40', '80'),
                         strokeOpacity: 0.8,
@@ -482,6 +514,7 @@ const DisplayMap = () => {
 
 
 
+
             // Create an info window for each marker
             const infoWindow = new google.maps.InfoWindow({
                 content: `
@@ -505,14 +538,14 @@ const DisplayMap = () => {
             });
 
             // Show info window when marker is clicked
-            marker.addListener("click", () => {
+            priceLabel.addListener("click", () => {
                 let extraModal = document.querySelectorAll(".gm-style-iw.gm-style-iw-c");
                 if (extraModal.length > 0) {
                     extraModal.forEach((modal) => {
                         modal.remove()
                     })
                 }
-                infoWindow.open(map, marker);
+                infoWindow.open(map, priceLabel);
             });
         });
 
@@ -571,11 +604,14 @@ const DisplayMap = () => {
 
         const objToSend = {
             city,
-            propertyType,
-            price,
-            bed,
-            bath
+            property_type: propertyType,
+            price_max: price,
+            bedrooms: bed,
+            bathrooms: bath,
+            lead_types_id: other_features
         }
+
+        console.log('[objToSend]', objToSend)
 
         dispatch(FilterMapListing(objToSend))
             .then((response) => {
@@ -606,6 +642,30 @@ const DisplayMap = () => {
 
         initMap([])
     }
+
+    const openLeadTypeDrawer = () => {
+        setIsLeadTypeDrawerOpen(true)
+    }
+    const closeLeadTypeDrawer = () => {
+        setIsLeadTypeDrawerOpen(false)
+    }
+
+
+    const featuresCheckHandler = (e) => {
+        console.log('[e.target.name]', Number(e.target.name))
+        console.log('[e.target.checked]', e.target.checked)
+        if (e.target.checked) {
+            // add this id to the array
+            setOtherFeatures([...other_features, Number(e.target.name)])
+        } else {
+            // remove this id from the array
+            console.log('[other_features]', other_features)
+            const filteredItems = other_features.filter(item => item !== Number(e.target.name));
+            console.log('[filteredItems]', filteredItems)
+            setOtherFeatures(filteredItems)
+        }
+    }
+
 
 
 
@@ -639,7 +699,7 @@ const DisplayMap = () => {
                                             </div>
                                         )
                                             : (
-                                                allCities.length > 0 ? allCities.map((city, index) => (
+                                                allCities?.length > 0 ? allCities.map((city, index) => (
                                                     <div
                                                         key={index}
                                                         className='c-pointer property-names m-0 d-flex align-items-center gap-2 pb-1'
@@ -678,6 +738,19 @@ const DisplayMap = () => {
                     </div>
                 </Col>
                 <Col lg={2}>
+                    <InputGroup
+                        className="property-search-input"
+                        onClick={openLeadTypeDrawer}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <Form.Control
+                            placeholder="Lead Type"
+                            className='search'
+                            style={{ pointerEvents: 'none' }}
+                        />
+                    </InputGroup>
+                </Col>
+                <Col lg={1}>
                     <div className='custom-price-filter'>
                         {/* <PriceFilter /> */}
                         <div className="">
@@ -726,16 +799,17 @@ const DisplayMap = () => {
                         <DropDownComp value={filterBath} label={"Bath"} options={BATHROOMS} name="property_type_id" className='p-3' onChange={(e) => { setFilterBath(e.target.value) }} />
                     </div>
                 </Col>
-                <Col lg={3}>
+                <Col lg={2}>
                     <div className='d-flex align-items-center gap-2'>
-                        <button type='button' className='btn btn-primary w-25' onClick={applyFilter}>Apply</button>
-                        <button type='button' className='btn btn-warning w-25 btn-warning' onClick={resetFilter}>Reset</button>
+                        <button type='button' className='btn btn-primary' onClick={applyFilter}>Apply</button>
+                        <button type='button' className='btn btn-warning btn-warning' onClick={resetFilter}>Reset</button>
                     </div>
                 </Col>
             </Row>
             <section className='display-map mt-3 main-section position-relative d-flex justify-content-center align-items-center mx-xl-0 mx-4'>
                 <div id="map" className=''></div>
 
+                {/* // Update the control panel JSX */}
                 <div className="radius-controls position-absolute" style={{ top: '10px', right: '10px', background: 'white', padding: '10px', borderRadius: '4px', boxShadow: '0 2px 6px rgba(0,0,0,0.3)' }}>
                     <div className="d-flex flex-column gap-2">
                         <Form.Check
@@ -756,12 +830,42 @@ const DisplayMap = () => {
                             checked={showRadii.full}
                             onChange={(e) => setShowRadii({ ...showRadii, full: e.target.checked })}
                         />
+                        <Form.Check
+                            type="checkbox"
+                            label="5 mile radius"
+                            checked={showRadii.five}
+                            onChange={(e) => setShowRadii({ ...showRadii, five: e.target.checked })}
+                        />
                     </div>
                 </div>
                 {
                     isLoading || isMapLoading && <MapLoader />
                 }
             </section>
+
+            {/* LEAD TYPE SELECTION DRAWER */}
+            {
+
+                <section className={`lead-type-drawer ${isLeadTypeDrawerOpen ? 'open' : ''}`}>
+                    <div className='d-flex mt-4 ms-3 justify-content-between'>
+                        <h2 className='side-heading'>Lead Type</h2>
+                        <span onClick={closeLeadTypeDrawer} className='me-3 cursor-pointer'><RxCross2 size={25} /></span>
+                    </div>
+                    <Row className='flex-column p-4'>
+                        {
+                            leadTypes.length ? leadTypes.map((item, index) => {
+                                return (
+                                    <Col key={index} className="p-3">
+                                        {/* */}
+                                        <CheckBoxComp size={"19px"} id={item[1].type_name} label={item[1].type_name} name={item[0]} onChange={featuresCheckHandler} checked={other_features.includes(item[0]) ? true : false} />
+                                    </Col>
+                                )
+                            }) : null
+                        }
+                    </Row>
+                </section>
+
+            }
         </>
     )
 }

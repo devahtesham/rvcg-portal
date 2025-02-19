@@ -36,8 +36,8 @@ const INITIAL_STATE = {
     highROIProperty: [],
     lowROIProperty: [],
     vendors: [],
-    vendorDetails:{},
-    mlsData:[]
+    vendorDetails: {},
+    mlsData: []
 
 
 }
@@ -341,9 +341,19 @@ const PropertySlice = createSlice({
         })
         builder.addCase(GetMLSData.fulfilled, (state, action) => {
             state.isLoading = false
-            state.mlsData = action.payload?.Results
+            state.mlsData = action.payload?.results
         })
         builder.addCase(GetMLSData.rejected, (state) => {
+            state.isLoading = false
+        })
+        builder.addCase(FilterMLSData.pending, (state) => {
+            state.isLoading = true
+        })
+        builder.addCase(FilterMLSData.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.mlsData = action.payload?.results
+        })
+        builder.addCase(FilterMLSData.rejected, (state) => {
             state.isLoading = false
         })
     }
@@ -1243,7 +1253,7 @@ export const GetUserProfileDetails = createAsyncThunk('/show_single_user/id/EDIT
 })
 
 // GET
-export const FilterMapListing = createAsyncThunk('/listings/search/GET', async ({ price, propertyType, city, bed, bath }, { rejectWithValue }) => {
+export const FilterMapListing = createAsyncThunk('/listings/search/GET', async (payload, { rejectWithValue }) => {
     try {
         const headers = {
             'Accept': 'application/json',
@@ -1251,16 +1261,16 @@ export const FilterMapListing = createAsyncThunk('/listings/search/GET', async (
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
 
-        const cityQuery = city ? `city=${city}&` : ''
-        const priceQuery = price ? `price_min=${price}&` : ''
-        const propertyTypeQuery = propertyType ? `property_type=${propertyType}&` : ''
-        const bedQuery = bed ? `bedrooms=${bed}&` : ''
-        const bathQuery = bath ? `bathrooms=${bath}&` : ''
+        // const cityQuery = city ? `city=${city}&` : ''
+        // const priceQuery = price ? `price_min=${price}&` : ''
+        // const propertyTypeQuery = propertyType ? `property_type=${propertyType}&` : ''
+        // const bedQuery = bed ? `bedrooms=${bed}&` : ''
+        // const bathQuery = bath ? `bathrooms=${bath}&` : ''
+        // const query = `${cityQuery}${priceQuery}${propertyTypeQuery}${bedQuery}${bathQuery}`
 
 
 
-        const query = `${cityQuery}${priceQuery}${propertyTypeQuery}${bedQuery}${bathQuery}`
-        const response = await axios.get(`${BASE_URL_AUTH}/listings/search?${query}`, { headers });
+        const response = await axios.post(`${BASE_URL_AUTH}/listings/search`, payload, { headers });
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data.message || 'Something Went Wrong !')
@@ -1395,14 +1405,32 @@ export const DeleteVendor = createAsyncThunk('/vendors/DELETE', async (param, { 
 
 
 // GET
-export const GetMLSData = createAsyncThunk('/mls-data/GET', async (payload, { rejectWithValue }) => {
+export const GetMLSData = createAsyncThunk('/mls-data/GET', async (text, { rejectWithValue }) => {
     try {
         const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
-        const response = await axios.get(`${BASE_URL_AUTH}/mls-data`, { headers });
+        const query = text ? `/search?query=${text}` : ''
+
+        const response = await axios.get(`${BASE_URL_AUTH}/mls-data${query}`, { headers });
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || 'Something Went Wrong !')
+    }
+})
+
+// POST
+export const FilterMLSData = createAsyncThunk('/mls/filter-data/POST', async (payload, { rejectWithValue }) => {
+    // 
+    try {
+        const headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+        const response = await axios.post(`${BASE_URL_AUTH}/mls/filter-data`, payload, { headers });
         return response.data
     } catch (error) {
         return rejectWithValue(error.response.data.message || 'Something Went Wrong !')

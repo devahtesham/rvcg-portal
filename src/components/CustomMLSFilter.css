@@ -1,0 +1,50 @@
+/* Filter.css */
+.filter-content {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    width: 465px;
+    box-shadow: 0 0 24px 0 #00000038;
+}
+
+.filter-popover {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.filter-button {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+}
+
+.keywords-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Optional: Style the form controls */
+.form-control:focus,
+.form-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Optional: Custom checkbox styles */
+.form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+/* Optional: Responsive adjustments */
+@media (max-width: 576px) {
+    .filter-content {
+        width: 280px;
+    }
+
+    .keywords-grid {
+        grid-template-columns: 1fr;
+    }
+}

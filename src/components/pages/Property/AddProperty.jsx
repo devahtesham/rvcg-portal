@@ -5,7 +5,7 @@ import "./EditDetails.css"
 import { errorNotify } from '../../../Toastify/Toastify'
 import AddPropertyDetailsMap from './Map/AddPropertyDetailsMap'
 import { useDispatch, useSelector } from 'react-redux'
-import { AddPropertyAction, EditProperty, GetAllCities, GetAllProperties, GetPropertyFeatures, GetPropertyStatuses, GetPropertyTypes } from '../../../store/slices/propertyManagementSlice/propertyManagementSlice'
+import { AddPropertyAction, EditProperty, GetAllCities, GetAllProperties, GetLeadType, GetPropertyFeatures, GetPropertyStatuses, GetPropertyTypes } from '../../../store/slices/propertyManagementSlice/propertyManagementSlice'
 import UploadDragFile from '../../UploadDragFile/UploadDragFile'
 import MultiImageUpload from '../../MultiImageUploader/MultiImageUploader'
 import { useModal } from '../../../hooks/useModal'
@@ -15,7 +15,7 @@ import axios from 'axios'
 const AddProperty = ({ isEdit, data }) => {
     const dispatch = useDispatch();
     const { handleModalClose } = useModal()
-    const { cities, propertyTypes, propertyStatuses, propertyFeatures } = useSelector((state) => state.PropertyMangementReducer)
+    const { cities, propertyTypes, propertyStatuses, propertyFeatures,leadTypes } = useSelector((state) => state.PropertyMangementReducer)
     console.log('[data]', data);
 
     const [gdrp_agreement, setGdrpAgreement] = useState("")
@@ -32,6 +32,7 @@ const AddProperty = ({ isEdit, data }) => {
                 city_id: data.city_id,
                 country_id: data.country_id,
                 property_type_id: data.property_type_id,
+                lead_types_id: data.lead_types_id,
                 property_status_id: data.property_status_id,
                 price: data.price,
                 square_foot: data.square_foot,
@@ -73,6 +74,7 @@ const AddProperty = ({ isEdit, data }) => {
         city_id: "",
         country_id: "",
         property_type_id: "",
+        lead_types_id: "",
         property_status_id: "",
         price: "",
         square_foot: "",
@@ -105,6 +107,7 @@ const AddProperty = ({ isEdit, data }) => {
         dispatch(GetPropertyStatuses())
         dispatch(GetPropertyTypes())
         dispatch(GetPropertyFeatures())
+         dispatch(GetLeadType())
     }, [])
 
     const handleOwnerPropertyDocument = () => { }
@@ -267,6 +270,19 @@ const AddProperty = ({ isEdit, data }) => {
                                     <Col lg={6}>
                                         <div className='swimming-pool  mb-4'>
                                             <DropDownComp label={"Property Type"} value={propertyDetails.property_type_id} options={propertyTypes.length ? propertyTypes.map(item => { return { label: item[1], value: item[0] } }) : []} name="property_type_id" onChange={propertyDetailsHandler} className='p-3' />
+                                        </div>
+                                    </Col>
+                                    <Col lg={6} className="">
+                                        <div className='property-no'>
+                                            <DropDownComp
+                                                label={"Lead Type"}
+                                                value={propertyDetails.lead_types_id}
+                                                options={leadTypes.length ? leadTypes.map(item => { return { label: item[1].type_name, value: item[0] } }) : []}
+                                                name="lead_types_id"
+                                                onChange={propertyDetailsHandler}
+                                                className='p-3'
+                                            />
+
                                         </div>
                                     </Col>
                                     <Col lg={6}>

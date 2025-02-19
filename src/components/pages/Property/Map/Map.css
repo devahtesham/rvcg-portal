@@ -247,3 +247,19 @@ button.gm-ui-hover-effect {
     height: 75vh; */
     flex:1
 }
+
+
+.price-label {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Optional: Add a pointer to the label */
+.gm-style .gm-style-iw {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.3);
+}

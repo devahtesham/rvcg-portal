@@ -55,7 +55,7 @@ const LeadTypes = () => {
                 customBodyRender: (item) => (
                     <div className='ms-4'>
                         <OverlayTrigger placement="top" overlay={(props) => renderTooltip(props, item.description)}>
-                            <span className="text-primary" style={{ cursor: "pointer" }}>
+                            <span className="" style={{ cursor: "pointer" }}>
                                 <span className=''>{item.type_name} <RxQuestionMarkCircled size={17} style={{ marginLeft: 5 }} /></span>
                             </span>
                         </OverlayTrigger>

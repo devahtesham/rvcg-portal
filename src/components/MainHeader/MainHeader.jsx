@@ -9,10 +9,10 @@ const MainHeader = () => {
     return (
         <>
             <div
-                className='section-main-heading d-flex align-items-center justify-content-between pt-3 px-4'
+                className='section-main-heading d-flex align-items-center justify-content-between pt-3 px-4 flex-xl-row flex-row-reverse'
                 >
-                <h2 className='main-dashboard-heading'>{`${role[0].toLocaleUpperCase()}${role?.substring(1)}`} Dashboard</h2>
-                <div className="menu-bar ps-3 d-xl-none d-block" onClick={() => { showSideBar(true) }}>
+                <h2 className='main-dashboard-heading order-xl-0 order-1'>{`${role[0].toLocaleUpperCase()}${role?.substring(1)}`} Dashboard</h2>
+                <div className="menu-bar ps-3 d-xl-none d-block order-xl-0 order-1" onClick={() => { showSideBar(true) }}>
                     <span><GiHamburgerMenu size={23} /></span>
                 </div>
                 <Notification />

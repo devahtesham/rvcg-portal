@@ -348,7 +348,7 @@ const PropertyContextProvider = ({ children }) => {
             center: { lat: DEFAULT_LAT, lng: DEFAULT_LONG },
             zoom: 13, // update this too
             mapTypeControl: true,
-            mapTypeId: google.maps.MapTypeId.SATELLITE,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControlOptions: {
                 position: google.maps.ControlPosition.LEFT_TOP,
             },

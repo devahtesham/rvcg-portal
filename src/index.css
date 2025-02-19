@@ -450,3 +450,19 @@ a {
     width: 200px;
     height: 23px;
 }
+
+.lead-type-drawer{
+    position: fixed;
+    top:0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    width: 23rem;
+    box-shadow: 0 0 51px 0 #0000005e;
+    transform: translateX(55rem);
+    transition-duration: 0.5s;
+}
+
+.lead-type-drawer.open{
+    transform: translateX(0);
+}

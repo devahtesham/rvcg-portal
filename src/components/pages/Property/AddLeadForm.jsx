@@ -208,7 +208,7 @@ const AddLeadForm = ({ isEdit, data }) => {
                             <DropDownComp
                                 label={"Lead Type"}
                                 value={leadDetails.lead_type_id}
-                                options={leadTypes.length ? leadTypes.map(item => { return { label: item[1], value: item[0] } }) : []}
+                                options={leadTypes.length ? leadTypes.map(item => { return { label: item[1].type_name, value: item[0] } }) : []}
                                 name="lead_type_id"
                                 onChange={leadValuesHandler}
                                 className='p-3'
