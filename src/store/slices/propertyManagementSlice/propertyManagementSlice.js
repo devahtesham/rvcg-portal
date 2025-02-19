@@ -37,7 +37,8 @@ const INITIAL_STATE = {
     lowROIProperty: [],
     vendors: [],
     vendorDetails: {},
-    mlsData: []
+    mlsData: [],
+    fileUploadId:""
 
 
 }
@@ -355,6 +356,9 @@ const PropertySlice = createSlice({
         })
         builder.addCase(FilterMLSData.rejected, (state) => {
             state.isLoading = false
+        })
+        builder.addCase(FileUpload.fulfilled, (state, action) => {
+            state.fileUploadId = action.payload.id
         })
     }
 })
@@ -1432,6 +1436,21 @@ export const FilterMLSData = createAsyncThunk('/mls/filter-data/POST', async (pa
         }
         const response = await axios.post(`${BASE_URL_AUTH}/mls/filter-data`, payload, { headers });
         return response.data
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || 'Something Went Wrong !')
+    }
+})
+
+// POST
+export const FileUpload = createAsyncThunk('/temp_files/POST', async (payload, { rejectWithValue }) => {
+    // 
+    try {
+        const headers = {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+        const response = await axios.post(`${BASE_URL_AUTH}/temp_files`, payload, { headers });
+        return response.data.data
     } catch (error) {
         return rejectWithValue(error.response.data.message || 'Something Went Wrong !')
     }

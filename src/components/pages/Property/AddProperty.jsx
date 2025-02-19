@@ -5,7 +5,7 @@ import "./EditDetails.css"
 import { errorNotify } from '../../../Toastify/Toastify'
 import AddPropertyDetailsMap from './Map/AddPropertyDetailsMap'
 import { useDispatch, useSelector } from 'react-redux'
-import { AddPropertyAction, EditProperty, GetAllCities, GetAllProperties, GetLeadType, GetPropertyFeatures, GetPropertyStatuses, GetPropertyTypes } from '../../../store/slices/propertyManagementSlice/propertyManagementSlice'
+import { AddPropertyAction, EditProperty, FileUpload, GetAllCities, GetAllProperties, GetLeadType, GetPropertyFeatures, GetPropertyStatuses, GetPropertyTypes } from '../../../store/slices/propertyManagementSlice/propertyManagementSlice'
 import UploadDragFile from '../../UploadDragFile/UploadDragFile'
 import MultiImageUpload from '../../MultiImageUploader/MultiImageUploader'
 import { useModal } from '../../../hooks/useModal'
@@ -15,10 +15,10 @@ import axios from 'axios'
 const AddProperty = ({ isEdit, data }) => {
     const dispatch = useDispatch();
     const { handleModalClose } = useModal()
-    const { cities, propertyTypes, propertyStatuses, propertyFeatures,leadTypes } = useSelector((state) => state.PropertyMangementReducer)
-    console.log('[data]', data);
+    const { cities, propertyTypes, propertyStatuses, propertyFeatures, leadTypes,fileUploadId } = useSelector((state) => state.PropertyMangementReducer)
+    console.log('[fileUploadId]', fileUploadId);
 
-    const [gdrp_agreement, setGdrpAgreement] = useState("")
+    const [GDRP_AgreementId, setGDRP_AgreementId] = useState("")
     const [property_images, setPropertyImages] = useState([])
 
     const [other_features, setOtherFeatures] = useState([])
@@ -99,6 +99,7 @@ const AddProperty = ({ isEdit, data }) => {
         owner_email_address: "",
         owner_government_id_proof: "",
         owner_contact_number: "",
+        gdrp_image:''
 
     })
 
@@ -107,7 +108,7 @@ const AddProperty = ({ isEdit, data }) => {
         dispatch(GetPropertyStatuses())
         dispatch(GetPropertyTypes())
         dispatch(GetPropertyFeatures())
-         dispatch(GetLeadType())
+        dispatch(GetLeadType())
     }, [])
 
     const handleOwnerPropertyDocument = () => { }
@@ -150,9 +151,6 @@ const AddProperty = ({ isEdit, data }) => {
             return
         }
 
-        const formData = new FormData();
-        formData.append('image', gdrp_agreement);
-
         const payload = {
             ...propertyDetails,
             property_images: localStorage.getItem('propertyImages'),
@@ -166,8 +164,9 @@ const AddProperty = ({ isEdit, data }) => {
             repair_cost: +propertyDetails.repair_cost,
             square_foot: +propertyDetails.square_foot,
             wholesale_fee: +propertyDetails.wholesale_fee,
-            gdrp_image: formData
+            gdrp_image: fileUploadId
         }
+
         console.log('[payload]', payload);
 
         if (!isEdit) {
@@ -200,19 +199,7 @@ const AddProperty = ({ isEdit, data }) => {
         const formData = new FormData();
         formData.append('file', file);
 
-        const headers = {
-            'Accept': 'application/json',
-            // 'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        };
-
-        axios.post('https://rvcg-git.designsbits.com/api/admin/temp_files', formData, { headers })
-            .then((response) => {
-                console.log('[response]', response);
-            })
-            .catch((error) => {
-                console.log('[error]', error);
-            });
+        dispatch(FileUpload(formData))
     }
 
     const handleMultiImgSelect = (files) => {
