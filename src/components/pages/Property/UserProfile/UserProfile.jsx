@@ -39,7 +39,7 @@ const UserProfile = () => {
             <div className="container mt-5 " >
                 <div className='d-flex mb-4 justify-content-between'>
                     <h1 className="mb-0 side-heading">User Profile</h1>
-                    <button className='btn btn-primary' onClick={editProfileHandler}>Edit Profile</button>
+                    <button className='btn bg-blue-new-clr border-0 text-white' onClick={editProfileHandler}>Edit Profile</button>
                 </div>
                 <div className="card">
                     <div className="card-body">
@@ -104,7 +104,7 @@ const UserProfile = () => {
                         </div>
 
                         {/* Social Media Section */}
-                        <div className="card mb-4">
+                        <div className="card mb-4 social-media-section">
                             <div className="card-header">
                                 <h4>Social Media Profiles</h4>
                             </div>
@@ -116,7 +116,7 @@ const UserProfile = () => {
                                             href={profile}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="btn btn-outline-primary social_icons"
+                                            className="btn social_icons"
                                         >
                                             {profile.includes('facebook') && <FaFacebook className="me-2" />}
                                             {profile.includes('twitter') && <FaTwitter className="me-2" />}
@@ -138,13 +138,13 @@ const UserProfile = () => {
                                     <div className="col-md-6">
                                         <div className="mb-3">
                                             <label className="fw-bold">Bankruptcy Status:</label>
-                                            <p className="text-success">{userProfileDetails?.bankruptcy_details}</p>
+                                            <p className="">{userProfileDetails?.bankruptcy_details}</p>
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="mb-3">
                                             <label className="fw-bold">Liens Status:</label>
-                                            <p className="text-success">{userProfileDetails?.liens_details}</p>
+                                            <p className="">{userProfileDetails?.liens_details}</p>
                                         </div>
                                     </div>
                                 </div>

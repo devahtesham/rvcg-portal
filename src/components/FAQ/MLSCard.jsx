@@ -17,7 +17,7 @@ const MLSCard = ({ property }) => {
                 <Card.Text>
                     🏡 Type: {property.PropertyTypeString}
                 </Card.Text>
-                <Button variant="primary" href={property.CustomUrl} target="_blank" className="text-white fw-600">
+                <Button href={property.CustomUrl} target="_blank" className="text-white fw-600 bg-main-clr border-0">
                     View Details
                 </Button>
             </Card.Body>

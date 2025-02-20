@@ -19,15 +19,21 @@ span {
 }
 
 :root {
-    --main-color: #E8090C;
-    --dashboard-green-clr: #3DC681;
-    --dashboard-yellow-clr: #ffbb5d;
+    --main-color: #16BFBF;
+    --dashboard-green-clr: #16BFBF;
+    --dashboard-yellow-clr: #16BFBF;
     --dashboard-orange-clr: #ff9054;
     --dashboard-blue-clr: #37cfd1;
     --dashboard-grey-clr: #F5F5F5;
     --dashboard-cream-clr: #FAC9A9;
-    --golden-clr: #ceb17e;
+    --golden-clr: #16BFBF;
 
+
+    /* (green) */
+    /* #16BFBF */    
+    
+    /* (blue) */
+    /* #00233D */    
 }
 
 a {
@@ -77,6 +83,9 @@ a {
 .bg-main-clr {
     background-color: var(--golden-clr) !important;
 }
+.bg-blue-new-clr {
+    background-color: #00233D !important;
+}
 
 .text-main-clr {
     color: var(--main-color) !important;
@@ -95,7 +104,7 @@ a {
 }
 
 .btn-main-clr {
-    background-color: #e60c0b !important;
+    background-color: #16BFBF !important;
     border: none !important;
     font-weight: 700 !important;
 }
@@ -143,7 +152,7 @@ a {
 }
 
 .main-heading {
-    color: #e60c0b;
+    color: #16BFBF;
     font-weight: 700;
     background: rgb(212, 210, 210);
     padding: 10px 30px;
@@ -153,7 +162,7 @@ a {
 }
 
 .side-heading {
-    background-color: #e60c0b;
+    background-color: #16BFBF;
     color: #fff;
     font-weight: 600;
     padding: 7px 30px;
@@ -465,4 +474,9 @@ a {
 
 .lead-type-drawer.open{
     transform: translateX(0);
+}
+
+.social-media-section a.btn:hover{
+    background-color: #16BFBF;
+    border-color: unset;
 }

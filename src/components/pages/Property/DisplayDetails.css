@@ -15,8 +15,8 @@
     font-weight: 700;
 }
 button.btn-main-clr:hover{
-    background-color: #000 !important;
+    background-color: #00233D !important;
 }
 button.btn-2:hover{
-    background-color: var(--main-color) !important;
+    background-color: #00233D !important;
 }

@@ -204,7 +204,7 @@ const EditProfile = () => {
                                     </div>
 
                                     <div className="col-md-2 mb-3">
-                                        <button type='button' className='btn btn-outline-primary' onClick={() => setIsPasswordFieldShow(true)}>Change Password</button>
+                                        <button type='button' className='btn bg-main-clr border-0 text-white' onClick={() => setIsPasswordFieldShow(true)}>Change Password</button>
                                     </div>
 
                                     {
@@ -282,7 +282,7 @@ const EditProfile = () => {
                                 <h4>Social Media Profiles</h4>
                                 <button
                                     type="button"
-                                    className="btn btn-sm btn-primary"
+                                    className="btn btn-sm bg-blue-new-clr border-0 text-white"
                                     onClick={() => handleAddField('social_media_profiles')}
                                 >
                                     <FaPlus className="me-1" /> Add Profile

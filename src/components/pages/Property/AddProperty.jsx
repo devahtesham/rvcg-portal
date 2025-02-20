@@ -18,6 +18,7 @@ const AddProperty = ({ isEdit, data }) => {
     const { cities, propertyTypes, propertyStatuses, propertyFeatures, leadTypes } = useSelector((state) => state.PropertyMangementReducer)
 
     const [gdrp_agreement, setGDRP_agreement] = useState("")
+    const [ownerPropertyDocument, setOwnerPropertyDocument] = useState("")
     const [property_images, setPropertyImages] = useState([])
 
     const [other_features, setOtherFeatures] = useState([])
@@ -108,7 +109,16 @@ const AddProperty = ({ isEdit, data }) => {
         dispatch(GetLeadType())
     }, [])
 
-    const handleOwnerPropertyDocument = () => { }
+    const handleOwnerPropertyDocument = (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        dispatch(FileUpload(formData))
+            .then((res) => {
+                console.log('[res]', res)
+                setOwnerPropertyDocument(res.payload.id)
+            })
+    }
 
 
 
@@ -162,7 +172,8 @@ const AddProperty = ({ isEdit, data }) => {
             square_foot: +propertyDetails.square_foot,
             wholesale_fee: +propertyDetails.wholesale_fee,
             gdrp_agreement,
-            listing_media: property_images
+            listing_media: property_images,
+            owner_property_documents: ownerPropertyDocument,
         }
 
         console.log('[payload]', payload);
@@ -473,7 +484,7 @@ const AddProperty = ({ isEdit, data }) => {
 
                                     <Col lg={12} className=" p-4">
                                         <h5 className='mb-3'>Owner Property Document</h5>
-                                        {/* <UploadDragFile onFileSelect={handleOwnerPropertyDocument} /> */}
+                                        <UploadDragFile onFileSelect={handleOwnerPropertyDocument} />
                                     </Col>
                                 </Row>
                             </Col>

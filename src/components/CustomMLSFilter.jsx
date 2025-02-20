@@ -143,7 +143,7 @@ const CustomMLSFilter = ({ onFilterChange }) => {
                 {/* Apply Button */}
                 <div className="d-grid">
                     <Button
-                        variant="primary"
+                       className='bg-main-clr border-0'
                         onClick={handleApply}
                     >
                         Apply Filters

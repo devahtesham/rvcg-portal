@@ -72,7 +72,7 @@ const PropertySlice = createSlice({
         })
         builder.addCase(GetPropertyById.fulfilled, (state, action) => {
             state.isLoading = false
-            state.propertyDetails = action.payload
+            state.propertyDetails = { ...action.payload, media: action.payload?.media?.map((imgObj) => ({ url: imgObj.file_url, alt: imgObj.file_name })) }
         })
         builder.addCase(GetPropertyById.rejected, (state) => {
             state.isLoading = false

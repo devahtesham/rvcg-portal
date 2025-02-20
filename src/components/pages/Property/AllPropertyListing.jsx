@@ -106,7 +106,7 @@ const AllPropertyListing = () => {
                                     {/* Project, Tenant, Agent, Owner, Mobile */}
                                     <DropDownComp options={['Project', 'Tenant', 'Agent', 'Owner', 'Mobile']} name="" onChange="" />
                                 </div>
-                                <span className='order-1'><BiSearch size={20} color='#e60c0b' /></span>
+                                <span className='order-1'><BiSearch size={20} color='#16BFBF' /></span>
                             </div>
                         </Col>
                         {/* icons */}

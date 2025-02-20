@@ -755,7 +755,7 @@ const DisplayMap = () => {
                         {/* <PriceFilter /> */}
                         <div className="">
                             <Dropdown onSelect={handleSelect}>
-                                <Dropdown.Toggle variant="outline-primary" className="w-100 py-2">
+                                <Dropdown.Toggle className="w-100 py-2 bg-main-clr border-0">
                                     {selectedPrice}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu className="w-100">
@@ -801,8 +801,8 @@ const DisplayMap = () => {
                 </Col>
                 <Col lg={2}>
                     <div className='d-flex align-items-center gap-2'>
-                        <button type='button' className='btn btn-primary' onClick={applyFilter}>Apply</button>
-                        <button type='button' className='btn btn-warning btn-warning' onClick={resetFilter}>Reset</button>
+                        <button type='button' className='btn bg-main-clr text-white' onClick={applyFilter}>Apply</button>
+                        <button type='button' className='btn bg-blue-new-clr text-white' onClick={resetFilter}>Reset</button>
                     </div>
                 </Col>
             </Row>

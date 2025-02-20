@@ -109,14 +109,14 @@ const Login = () => {
                                             <h2 className='fw-700 m-0'>Welcome</h2>
                                         </div>
                                         <Form.Group className="mb-3 icon-input" controlId="formBasicEmail">
-                                            <BiSolidUser size={20} color='#ceb17e' />
+                                            <BiSolidUser size={20} color='#16BFBF' />
                                             <Form.Control type="email" placeholder="Username or email" name='email' value={formData.email} onChange={handleChange} />
                                         </Form.Group>
 
                                         <Form.Group className="mb-3 icon-input" controlId="formBasicPassword">
-                                            <RiLockPasswordFill size={20} color='#ceb17e' />
+                                            <RiLockPasswordFill size={20} color='#16BFBF' />
                                             {
-                                                !isPasswordShow ? <BiSolidHide onClick={passwordShowHideHandler} size={20} color='#ceb17e' className='password-show-hide' /> : <BiSolidShow onClick={passwordShowHideHandler} size={20} color='#E8090C' className='password-show-hide' />
+                                                !isPasswordShow ? <BiSolidHide onClick={passwordShowHideHandler} size={20} color='#16BFBF' className='password-show-hide' /> : <BiSolidShow onClick={passwordShowHideHandler} size={20} color='#E8090C' className='password-show-hide' />
                                             }
 
 

@@ -12,6 +12,8 @@ import KPIChart from './KPI/KPIChart'
 import { FaHeart } from "react-icons/fa";
 import { MdImageSearch } from "react-icons/md";
 import MapLoader from '../../Loader/MapLoader'
+import DocumentPreview from './DocumentPreview/DocumentPreview'
+import BannerSlider from './BannerSlider/BannerSlider'
 
 
 
@@ -30,6 +32,8 @@ const DisplayDetails = () => {
     useEffect(() => {
         dispatch(GetPropertyById(id))
     }, [dispatch, id])
+
+    console.log('[propertyDetails]', propertyDetails)
 
 
 
@@ -61,17 +65,36 @@ const DisplayDetails = () => {
         navigate(`/payments/${id}`)
     }
 
+    let media = [
+        {
+
+            "alt": "1740077141_67b77855320e8.jpeg",
+            "url": "https://rvcg-git.designsbits.com/uploads/Listings/Image/1740077141_67b77855320e8.jpeg",
+        },
+        {
+            "alt": "1740077141_67b778553260f.jpg",
+            "url": "https://rvcg-git.designsbits.com/uploads/Listings/Image/1740077141_67b778553260f.jpg",
+
+        },
+        {
+
+            "alt": "1740077141_67b7785532b15.jpg",
+            "url": "https://rvcg-git.designsbits.com/uploads/Listings/Image/1740077141_67b7785532b15.jpg",
+
+        }
+    ]
+
+
     return (
         isLoading ? <div className='h-100 d-flex justify-content-center align-items-center'>
             <MapLoader />
         </div> : (
             <div className='display-detail-sec main-section'>
-                {/* property image */}
-                <section>
-                    <div className='property-bg-img'>
-                        <img src={PropertyBgImg} alt="" />
-                    </div>
+                <section >
+                    <BannerSlider bannerImages={media} />
                 </section>
+
+
                 <Container>
                     {/* property Details */}
                     <section className='property-details mt-5'>
@@ -268,18 +291,7 @@ const DisplayDetails = () => {
                                     </Col>
                                 )
                             }
-                            {
-                                propertyDetails?.gdrp_agreement !== null && (
-                                    <Col xl={4} lg={4} className=' rounded-2'>
-                                        <div className='owner-mobile my-3'>
-                                            <h6 className='mb-2'>GDRP Agreement:</h6>
-                                            <div className='detail-description'>
-                                                <p className='m-0 b-4 p-3 py-2 rounded-2'></p>
-                                            </div>
-                                        </div>
-                                    </Col>
-                                )
-                            }
+
 
                             {
                                 propertyDetails?.bedrooms !== null && (
@@ -411,7 +423,7 @@ const DisplayDetails = () => {
                             {/* Number of Water Heater */}
                             {
                                 propertyDetails?.property_status?.status !== null && (
-                                    <Col xl={4} lg={4} className=' rounded-2'>
+                                    <Col xl={5} lg={4} className=' rounded-2'>
                                         <div className='tenant-email d-flex flex-column my-3'>
                                             <h6 className='mb-3 mt-2 me-2'>Property Status:</h6>
                                             <p className='m-0 b-4 p-3 py-2 rounded-2'>{propertyDetails?.property_status?.status}</p>
@@ -422,10 +434,21 @@ const DisplayDetails = () => {
 
                             {
                                 booleanTypes.includes(propertyDetails?.is_approved) && (
-                                    <Col xl={4} lg={4} className=' rounded-2'>
+                                    <Col xl={5} lg={4} className=' rounded-2'>
                                         <div className='owner-mobile d-flex flex-column my-3'>
                                             <h6 className='mb-3 mt-2 me-2'>Approved:</h6>
                                             <p className='m-0 b-4 p-3 py-2 rounded-2'>{(propertyDetails?.is_approved === 1 || propertyDetails?.is_approved == true) ? "Yes" : "No"}</p>
+                                        </div>
+                                    </Col>
+                                )
+                            }
+
+                            {
+                                propertyDetails?.gdrp_agreement !== null && (
+                                    <Col xl={5} lg={4} className=' rounded-2'>
+                                        <div className='owner-mobile my-3'>
+                                            <h6 className='mb-2'>GDRP Agreement:</h6>
+                                            <DocumentPreview url={propertyDetails?.gdrp_agreement} />
                                         </div>
                                     </Col>
                                 )
@@ -565,21 +588,10 @@ const DisplayDetails = () => {
 
                                         {
                                             propertyDetails?.owner_property_documents !== null && (
-                                                <Col xl={4} lg={4} className=' rounded-2'>
-                                                    <div className='rs-ref-no d-flex flex-column my-3 '>
-                                                        <h6 className='mb-3 mt-2 me-2'>Property Document: </h6>
-                                                        <p className='m-0 b-4 p-3 py-2 rounded-2'>{propertyDetails?.owner_property_documents}</p>
-                                                    </div>
-                                                </Col>
-                                            )
-                                        }
-
-                                        {
-                                            propertyDetails?.owner_property_ownership_proof !== null && (
-                                                <Col xl={4} lg={4} className=' rounded-2'>
-                                                    <div className='rs-ref-no d-flex flex-column my-3 '>
-                                                        <h6 className='mb-3 mt-2 me-2'>Property Ownership Proof: </h6>
-                                                        <p className='m-0 b-4 p-3 py-2 rounded-2'>{propertyDetails?.owner_property_ownership_proof}</p>
+                                                <Col xl={5} lg={4} className=' rounded-2'>
+                                                    <div className='owner-mobile my-3'>
+                                                        <h6 className='mb-2'>Property Document:</h6>
+                                                        <DocumentPreview url={propertyDetails?.owner_property_documents} />
                                                     </div>
                                                 </Col>
                                             )
