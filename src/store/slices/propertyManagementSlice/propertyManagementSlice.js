@@ -38,7 +38,6 @@ const INITIAL_STATE = {
     vendors: [],
     vendorDetails: {},
     mlsData: [],
-    fileUploadId:""
 
 
 }
@@ -357,9 +356,7 @@ const PropertySlice = createSlice({
         builder.addCase(FilterMLSData.rejected, (state) => {
             state.isLoading = false
         })
-        builder.addCase(FileUpload.fulfilled, (state, action) => {
-            state.fileUploadId = action.payload.id
-        })
+       
     }
 })
 
