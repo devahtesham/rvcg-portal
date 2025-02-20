@@ -15,10 +15,9 @@ import axios from 'axios'
 const AddProperty = ({ isEdit, data }) => {
     const dispatch = useDispatch();
     const { handleModalClose } = useModal()
-    const { cities, propertyTypes, propertyStatuses, propertyFeatures, leadTypes,fileUploadId } = useSelector((state) => state.PropertyMangementReducer)
-    console.log('[fileUploadId]', fileUploadId);
+    const { cities, propertyTypes, propertyStatuses, propertyFeatures, leadTypes } = useSelector((state) => state.PropertyMangementReducer)
 
-    const [GDRP_AgreementId, setGDRP_AgreementId] = useState("")
+    const [gdrp_agreement, setGDRP_agreement] = useState("")
     const [property_images, setPropertyImages] = useState([])
 
     const [other_features, setOtherFeatures] = useState([])
@@ -99,8 +98,6 @@ const AddProperty = ({ isEdit, data }) => {
         owner_email_address: "",
         owner_government_id_proof: "",
         owner_contact_number: "",
-        gdrp_image:''
-
     })
 
     useEffect(() => {
@@ -164,7 +161,8 @@ const AddProperty = ({ isEdit, data }) => {
             repair_cost: +propertyDetails.repair_cost,
             square_foot: +propertyDetails.square_foot,
             wholesale_fee: +propertyDetails.wholesale_fee,
-            gdrp_image: fileUploadId
+            gdrp_agreement,
+            listing_media: property_images
         }
 
         console.log('[payload]', payload);
@@ -200,16 +198,24 @@ const AddProperty = ({ isEdit, data }) => {
         formData.append('file', file);
 
         dispatch(FileUpload(formData))
+            .then((res) => {
+                console.log('[res]', res)
+                setGDRP_agreement(res.payload.id)
+            })
     }
 
     const handleMultiImgSelect = (files) => {
-        const filesData = files.map(file => ({
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            lastModified: file.lastModified
-        }));
-        localStorage.setItem('propertyImages', JSON.stringify(filesData));
+
+        files.map(file => {
+            let formData = new FormData();
+            formData.append('file', file);
+            dispatch(FileUpload(formData))
+                .then((res) => {
+                    console.log('[res]', res)
+                    setPropertyImages((prev) => [...prev, res.payload.id])
+                })
+        });
+
     }
 
     const featuresCheckHandler = (e) => {
@@ -226,6 +232,8 @@ const AddProperty = ({ isEdit, data }) => {
             setOtherFeatures(filteredItems)
         }
     }
+
+
 
 
     return (
