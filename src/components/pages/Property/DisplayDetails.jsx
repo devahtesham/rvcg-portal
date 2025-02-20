@@ -91,7 +91,7 @@ const DisplayDetails = () => {
         </div> : (
             <div className='display-detail-sec main-section'>
                 <section >
-                    <BannerSlider bannerImages={media} />
+                    <BannerSlider bannerImages={propertyDetails?.media} />
                 </section>
 
 
