@@ -27,12 +27,15 @@ const DisplayMap = () => {
     } = useContext(PropertyContext)
     const [isLeadTypeDrawerOpen, setIsLeadTypeDrawerOpen] = useState(false)
 
-    // Add this to your component's state
+    // Update the showRadii state to include all increments
     const [showRadii, setShowRadii] = useState({
-        quarter: true,
-        half: true,
-        full: true,
-        five: true  // Added 5-mile option
+        quarter: true,    // 0.25
+        half: true,       // 0.50
+        one: true,        // 1.0
+        two: true,        // 2.0
+        three: true,      // 3.0
+        four: true,       // 4.0
+        five: true        // 5.0
     });
 
     // for optimizing renders on every key 
@@ -461,22 +464,28 @@ const DisplayMap = () => {
             // Convert miles to meters for Google Maps circles
             const milesToMeters = (miles) => miles * 1609.34;
 
+            // Update the radiusColors object with colors for each increment
             const radiusColors = {
-                0.25: '#FF000040', // Red with 25% opacity
-                0.5: '#0000FF40',  // Blue with 25% opacity
-                1: '#00FF0040',     // Green with 25% opacity
-                5: '#ffa5001a'     // Orange with 25% opacity
+                0.25: '#FF000040',  // Red
+                0.5: '#FFA50040',   // Orange
+                1: '#FFFF0040',     // Yellow
+                2: '#00FF0040',     // Green
+                3: '#0000FF40',     // Blue
+                4: '#4B008240',     // Indigo
+                5: '#80008040'      // Purple
             };
 
             // Create circles for different radii
-            [0.25, 0.5, 1, 5].forEach(radius => {
+            [0.25, 0.5, 1, 2, 3, 4, 5].forEach(radius => {
 
-                if (
-                    (radius === 0.25 && showRadii.quarter) ||
+                if ((radius === 0.25 && showRadii.quarter) ||
                     (radius === 0.5 && showRadii.half) ||
-                    (radius === 1 && showRadii.full) ||
-                    (radius === 5 && showRadii.five)
-                ) {
+                    (radius === 1 && showRadii.one) ||
+                    (radius === 2 && showRadii.two) ||
+                    (radius === 3 && showRadii.three) ||
+                    (radius === 4 && showRadii.four) ||
+                    (radius === 5 && showRadii.five)) {
+                        
                     const circle = new google.maps.Circle({
                         strokeColor: radiusColors[radius].replace('40', '80'),
                         strokeOpacity: 0.8,
@@ -827,8 +836,26 @@ const DisplayMap = () => {
                         <Form.Check
                             type="checkbox"
                             label="1 mile radius"
-                            checked={showRadii.full}
-                            onChange={(e) => setShowRadii({ ...showRadii, full: e.target.checked })}
+                            checked={showRadii.one}
+                            onChange={(e) => setShowRadii({ ...showRadii, one: e.target.checked })}
+                        />
+                        <Form.Check
+                            type="checkbox"
+                            label="2 mile radius"
+                            checked={showRadii.two}
+                            onChange={(e) => setShowRadii({ ...showRadii, two: e.target.checked })}
+                        />
+                        <Form.Check
+                            type="checkbox"
+                            label="3 mile radius"
+                            checked={showRadii.three}
+                            onChange={(e) => setShowRadii({ ...showRadii, three: e.target.checked })}
+                        />
+                        <Form.Check
+                            type="checkbox"
+                            label="4 mile radius"
+                            checked={showRadii.four}
+                            onChange={(e) => setShowRadii({ ...showRadii, four: e.target.checked })}
                         />
                         <Form.Check
                             type="checkbox"
