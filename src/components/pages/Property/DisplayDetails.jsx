@@ -601,9 +601,9 @@ const DisplayDetails = () => {
                                 )
                             }
                             <Row>
-                                <Col sm={12} >
+                                 <Col sm={12} >
                                     {
-                                        role !== 'admin' && (
+                                        role !== 'admin' && !propertyDetails?.owner_contact_number && (
                                             <div className='d-flex justify-content-end'>
                                                 <button onClick={applySkipTrace} className='btn bg-skip-tracing-btn text-white fw-500 d-flex gap-1 mt-3'><MdImageSearch size={22} /> Skip Trace to see Owner Complete Info</button>
                                             </div>
