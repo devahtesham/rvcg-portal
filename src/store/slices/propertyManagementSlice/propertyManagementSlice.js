@@ -203,7 +203,7 @@ const PropertySlice = createSlice({
         })
         builder.addCase(GetAllEmails.fulfilled, (state, action) => {
             state.isLoading = false
-            state.allEmails = action.payload.map(item => [item?.id, item?.user_id, item?.status, formatDateForUI(item?.created_at), displayTime(item?.created_at), item])
+            state.allEmails = action.payload.map(item => [item?.id, item?.user?.name, item?.status, formatDateForUI(item?.created_at), displayTime(item?.created_at), item])
         })
         builder.addCase(GetAllEmails.rejected, (state) => {
             state.isLoading = false
