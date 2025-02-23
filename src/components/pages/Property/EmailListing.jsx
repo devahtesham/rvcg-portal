@@ -43,7 +43,7 @@ const EmailListing = () => {
     },
     {
       name: '',
-      label: "User Id",
+      label: "Username",
       options: {
         filter: false,
         customBodyRender: (value) => (
