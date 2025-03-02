@@ -131,7 +131,7 @@ const FavouritePropertiesListing = () => {
   const deleteHandler = (value) => {
     console.log("I am delete", value)
 
-    dispatch(DeletePropertyFromFav(value.listing_id))
+    dispatch(DeletePropertyFromFav(value.id))
       .then((response) => {
         if (response.meta.requestStatus === "fulfilled") {
           successNotify("Removed From Favourites !")

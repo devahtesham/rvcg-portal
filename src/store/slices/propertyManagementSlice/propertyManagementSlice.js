@@ -291,7 +291,7 @@ const PropertySlice = createSlice({
         })
         builder.addCase(ViewFavProperties.fulfilled, (state, action) => {
             state.isLoading = false
-            state.favProperties = action.payload.map((item) => [item?.listing_id, item?.listing?.address, item?.listing?.status, item?.listing?.price_per_square_feet, item?.listing?.bedrooms, item?.listing?.bathrooms, item?.listing?.square_foot, item?.listing?.city?.city_name, item])
+            state.favProperties = action.payload.map((item) => [item?.id, item?.address, item?.property_status?.status, item?.price_per_square_feet, item?.bedrooms, item?.bathrooms, item?.square_foot, item?.city?.city_name, item])
         })
         builder.addCase(ViewFavProperties.rejected, (state) => {
             state.isLoading = false
@@ -1303,7 +1303,7 @@ export const ViewFavProperties = createAsyncThunk('/saved-properties/GET', async
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
         const response = await axios.get(`${BASE_URL_AUTH}/saved-properties`, { headers });
-        return response.data.savedProperties
+        return response.data
     } catch (error) {
         return rejectWithValue(error.response.data.message || 'Something Went Wrong !')
     }
