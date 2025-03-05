@@ -91,7 +91,28 @@ const AllAdminUsers = () => {
                 )
             }
         },
+        {
+            label: "Actions",
+            name: 'actions',
+            options: {
+                filter: false,
+                customBodyRender: (value) => (
+                    <div className='ms-4'> <IconMenu options={["Edit"]} onEditHandler={() => editHandler(value)}
+                        onDeleteHandler={() => deleteHandler(value)} /></div>
+                ),
+
+            }
+        },
     ];
+
+    const editHandler = (values) => {
+        handleModalOpen()
+        setIsEdit(true)
+        setDocument(values)
+    }
+    const deleteHandler = () => {
+
+    }
 
     const data = [
         ["61", "Al Mouj, Muscat", "test", "test", "test", "test", "123456789", "Mr Test"],
@@ -136,7 +157,7 @@ const AllAdminUsers = () => {
                 }
             </section>
             <ModalGlobal>
-                <AddUserForm/>
+                <AddUserForm isEdit={isEdit} data={document} />
             </ModalGlobal>
 
         </>
