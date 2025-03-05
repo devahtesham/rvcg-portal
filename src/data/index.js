@@ -636,6 +636,26 @@ export function getNavigationByRole() {
 }
 
 
+export const ALL_ROLES = [
+    {
+        label: 'Admin',
+        value: 'admin'
+    },
+    {
+        label: 'Investor',
+        value: 'investor'
+    },
+    {
+        label: 'Vendor',
+        value: 'vendor'
+    },
+    {
+        label: 'User',
+        value: 'user'
+    },
+]
+
+
 
 
 const MAIN_HEADINGS = {
