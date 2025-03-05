@@ -233,7 +233,7 @@ const PropertySlice = createSlice({
         })
         builder.addCase(getAllUsersAction.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.users = action.payload?.map(user => [user.id, user.name, user.email, user.role, user.phone_number, user.is_active === 1 ? 'verified' : 'Not Verified'])
+            state.users = action.payload?.map(user => [user.id, user.name, user.email, user.role, user.phone_number, user.is_active === 1 ? 'verified' : 'Not Verified', user])
         })
         builder.addCase(getAllUsersAction.rejected, (state) => {
             state.isLoading = false
@@ -356,7 +356,7 @@ const PropertySlice = createSlice({
         builder.addCase(FilterMLSData.rejected, (state) => {
             state.isLoading = false
         })
-       
+
     }
 })
 
